@@ -9,33 +9,42 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="leaflet/leaflet.ie.css" /><![endif]-->
 </head>
 <body>
-    <div id="map_canvas"></div>
-
-    <div id="right-col">
-        <h1>Art map</h1>
-
-        <div class="like-button">
-            <iframe src="http://www.facebook.com/plugins/like.php?href=media.hacktyler.com%artmap%2Findex.html&amp;send=false&amp;layout=box_count&amp;width=50&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=verdana&amp;height=90" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:50px; height:90px;" allowTransparency="true"></iframe>
-        </div>
-
-        <div id="description">
-            TODO
-        </div>
-
-        <div id="byline" >
-            Maker: <a href="http://twitter.com/onyxfish">Christopher Groskopf</a>
-        </div>
-        <div id="credits">
-            Data source: <a href="TODO">TODO</a>
-        </div>
+    <div id="home" class="page">
+        <h1>Hello there!</h1>
+        <a href="#map">View the map</a>
     </div>
+    
+    <div id="map" class="page"></div>
+
+    <div id="list" class="page">List view</div>
+
+    <div id="art" class="page">Art view</div>
 
     <script src="jquery-1.7.1.min.js"></script>
     <script src="underscore-min.js"></script>
+    <script src="backbone-min.js"></script>
     <script src='leaflet/leaflet.js' type='text/javascript'></script>
     <script src="wax.leaf.min.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js"></script>
     <script src='art.js' type='text/javascript'></script>
+
+    <script type="text/html" id="dummy" class="template">
+        <div>dummy</div>
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $("script.template").each(function(i, t) {
+                var el = $(t);
+                
+                ART.templates[el.attr("id")] = _.template(el.html());
+            });
+
+            window.ArtRoot = new ART.views.root();
+            window.ArtRouter = new ART.routers.index({ root_view: ArtRoot }); 
+            Backbone.history.start();
+        });
+    </script>
 </body>
 </html>
 

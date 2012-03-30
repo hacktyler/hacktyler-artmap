@@ -1,44 +1,10 @@
 html, body { width: 100%; height: 100% }
 
-body {font-family: Arial, sans-serif; font-size:12px; line-height:1.4em; margin: 0; padding: 0; width:100%; height: 100%;}
+.page { display: none; }
 
-h1 { font-size: 24px; margin: 18px 0 9px 0; line-height: 1.2em; font-weight: normal; font-family: Georgia, serif; margin-top:0;}
-h2 { font-size: 16px; padding-top:5px; margin-top:15px; margin-bottom:5px; text-shadow:#ddd 1px 1px 1px; line-height:1.3em; }
-
-/* Header is inside id="content"*/
-.like-button { margin-bottom:15px; float:right; width:50px; height:75px; overflow:hidden;}
-
-#map_canvas {
+#map {
     width: 100%;
     height: 100%;
     position:absolute;
 }
 
-#right-col { z-index:900; position:absolute; top:10px; right:10px; width:270px; padding: 15px; background-color:#f0f0f0; border:1px solid #333; }
-
-#right-col #description p { margin-bottom: 12px; width:210px; } 
-
-#right-col form#search { margin-bottom:12px; margin-top:10px; }
-#right-col form#search label {display:block;}
-#right-col form#search h3 {font-weight:bold;}
-#right-col form#search input {margin-top:4px;}
-#right-col form#search input[type=text] {width:150px;}
-#right-col form#search #alt-addresses p {margin-bottom:2px; font-style:italic;}
-#right-col form#search #alt-addresses a {display:block; margin-bottom:3px;}
-#right-col form#search #alt-addresses .hide-alternatives {text-align:right;}
-
-#right-col .legend { line-height:20px; width: 250px; }
-#right-col .legend h2 { font-weight: normal; }
-#right-col .legend table td { padding-left: 8px; text-align:right; vertical-align:middle; }
-#right-col .legend table th { font-weight: bold; font-size: 1.1em;}
-#right-col .legend table .label { padding-left: 8px; text-align:right; }
-#right-col .legend td .color { width:13px; height:13px; border-radius:60px; border: 2px solid black;}
-#right-col .legend .first.quantile { background-color:#D01C8B; }
-#right-col .legend .second.quantile { background-color:#F1B6DA; }
-#right-col .legend .third.quantile { background-color:#F7F7F7; }
-#right-col .legend .fourth.quantile { background-color:#B8E186; }
-#right-col .legend .fifth.quantile { background-color:#4DAC26; }
-
-#right-col .story-link { margin-bottom: 12px; }
-
-#credits, #byline { margin-top:5px; }

@@ -120,10 +120,11 @@ ART.views.root = Backbone.View.extend({
         this.current_content_view = this.get_or_create_view("map", {
             artwork_collection: this.artwork_collection
         });
-        this.current_content_view.reset();
         
         $(".page").hide();
         $("#map").show();
+
+        this.current_content_view.reset();
     },
     
     goto_list: function() {

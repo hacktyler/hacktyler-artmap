@@ -3,7 +3,7 @@ from fabric.api import *
 """
 Base configuration
 """
-env.project_name = 'commute'
+env.project_name = 'artmap'
 
 """
 Environments
@@ -50,3 +50,4 @@ def shiva_the_destroyer():
     """
     with settings(warn_only=True):
         run('s3cmd del --recursive s3://%(s3_bucket)s/%(project_name)s' % env)
+

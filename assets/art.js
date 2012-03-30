@@ -108,41 +108,37 @@ ART.views.root = Backbone.View.extend({
         return this.views[name];
     },
 
+    switch_page: function(id) {
+        $(".page").hide();
+        $("#" + id).show();
+    },
+
     goto_home: function() {
         this.current_content_view = this.get_or_create_view("home");
+        this.switch_page("home");
         this.current_content_view.reset();
-        
-        $(".page").hide();
-        $("#home").show();
     },
     
     goto_map: function() {
         this.current_content_view = this.get_or_create_view("map", {
             artwork_collection: this.artwork_collection
         });
-        
-        $(".page").hide();
-        $("#map").show();
-
+        this.switch_page("map");
         this.current_content_view.reset();
     },
     
     goto_list: function() {
         this.current_content_view = this.get_or_create_view("list");
+        this.switch_page("list");
         this.current_content_view.reset();
-        
-        $(".page").hide();
-        $("#list").show();
     },
 
     goto_art: function(slug) {
         this.current_content_view = this.get_or_create_view("art", {
             artwork_collection: this.artwork_collection
         });
+        this.switch_page("art");
         this.current_content_view.reset(slug);
-        
-        $(".page").hide();
-        $("#art").show();
     }
 });
 

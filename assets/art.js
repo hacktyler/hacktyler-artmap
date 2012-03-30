@@ -26,6 +26,42 @@ ART.utils.dict_zip = function(keys, values) {
     return obj;
 }
 
+/* Wrapper for jQuery.ajax fusion table query. 
+ *  Parameters:
+ *    context: Pass in `this` where called to preserve scope. Would like for
+ *             this to be removed if possible
+ *    query: The query string. Use %t as the table name, the function will 
+ *           perform the appropriate substitution.
+ *    callback: Callback function with data parameter available.
+ * 
+ *  Examples:
+ *   ART.utils.query(this, "SELECT * FROM %t WHERE name='Chris Test'", function(data){
+ *           // Do something with data
+ *   });
+*/
+ART.utils.query = function(context, query, callback){
+  
+  // Replace %t with the fusion table
+  queryString = query.replace("%t", ART.settings.fusion_table_id); 
+  queryURL = "https://www.google.com/fusiontables/api/query?sql=" + queryString;
+
+  $.ajax(queryURL, {
+      "dataType": "jsonp",
+      "jsonp": "jsonCallback",
+      "success": _.bind(function(data, textStatus, xhr) {
+          var columns = data["table"]["cols"];
+          var rows = data["table"]["rows"];
+
+          var data = _.map(rows, function(row) {
+              return ART.utils.dict_zip(columns, row);
+          });
+
+          // Fire the callback with the data available
+          callback(context, data);
+      }, context)
+  });
+}
+
 /* Routers */
 
 ART.routers.index = Backbone.Router.extend({
@@ -75,19 +111,8 @@ ART.views.root = Backbone.View.extend({
     },
 
     refresh_artwork: function() {
-        $.ajax("https://www.google.com/fusiontables/api/query?sql=SELECT * FROM " + ART.settings.fusion_table_id, {
-            "dataType": "jsonp",
-            "jsonp": "jsonCallback",
-            "success": _.bind(function(data, textStatus, xhr) {
-                var columns = data["table"]["cols"];
-                var rows = data["table"]["rows"];
-
-                var data = _.map(rows, function(row) {
-                    return ART.utils.dict_zip(columns, row);
-                });
-
-                this.artwork_collection.reset(data);
-            }, this)
+        ART.utils.query(this, "SELECT * FROM %t", function($this, data){
+            $this.artwork_collection.reset(data);
         });
     },
 

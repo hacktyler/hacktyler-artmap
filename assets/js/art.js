@@ -177,7 +177,7 @@ ART.views.map = Backbone.View.extend({
     },
 
     render: function() {
-        this.map = new L.Map('map', { minZoom:13, maxZoom:20 });
+        this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:20 });
         this.map.setView(new L.LatLng(32.33523, -95.3011), 13);
         this.map.addLayer(this.base_layer);
         this.map.addLayer(this.marker_group);

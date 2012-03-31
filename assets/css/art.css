@@ -1,10 +1,13 @@
 html, body { width: 100%; height: 100% }
+body { padding-top: 40px; }
 
+#content { padding: 0px; }
 .page { display: none; }
 
-#map {
+#map-canvas {
     width: 100%;
     height: 100%;
-    position:absolute;
+    position: absolute;
+    left: 0;
 }
 

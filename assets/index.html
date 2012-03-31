@@ -3,6 +3,8 @@
 <head>
     <title>Art map</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="css/reset.css" /> 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" /> 
     <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" /> 
@@ -11,20 +13,50 @@
     <link rel="stylesheet" type="text/css" href="css/art.css" />
 </head>
 <body>
-    <div id="home" class="page">
-        <h1>ArtMap</h1>
-        <a href="#map">View the map</a>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#">Artmap</a>
+
+                <ul class="nav">
+                    <li><a href="#map">Map</a></li>
+                    <li><a href="#list">List</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-    
-    <div id="map" class="page"></div>
 
-    <div id="list" class="page">List view (waiting for data...)</div>
+    <div id="home" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">
+                <h1>ArtMap</h1>
+                <a href="#map">View the map</a>
+            </div>
+        </div>
+    </div>
 
-    <div id="art" class="page">Art view (waiting for data...)</div>
+    <div id="map" class="container-fluid page">
+        <div class="row-fluid">
+            <div id="map-canvas" class="span12"></div>
+        </div>
+    </div>
+
+    <div id="list" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">List view (TKTK)</div>
+        </div>
+    </div>
+
+    <div id="art" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">Art view (waiting for data...)</div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script type="text/javascript" src="js/backbone-min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/leaflet.js"></script>
     <script type="text/javascript" src="js/wax.leaf.min.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js"></script>

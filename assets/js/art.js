@@ -68,8 +68,9 @@ ART.routers.index = Backbone.Router.extend({
     routes: {
         "":             "home",
         "map":          "map",
+        "map/:slug":    "map",
         "list":         "list",
-        "art/:slug":      "art"
+        "art/:slug":    "art"
     },
 
     initialize: function(options) {
@@ -77,7 +78,7 @@ ART.routers.index = Backbone.Router.extend({
     },
 
     home: function() { this.root_view.goto_home(); },
-    map: function() { this.root_view.goto_map(); },
+    map: function(slug) { this.root_view.goto_map(slug); },
     list: function() { this.root_view.goto_list(); },
     art: function(slug) { this.root_view.goto_art(slug); }
 });
@@ -120,7 +121,7 @@ ART.views.root = Backbone.View.extend({
     },
 
     refresh_view: function() {
-        this.current_content_view.reset();
+        this.current_content_view.refresh();
     },
 
     get_or_create_view: function(name, options) {
@@ -147,16 +148,18 @@ ART.views.root = Backbone.View.extend({
         this.current_content_view.reset();
     },
     
-    goto_map: function() {
+    goto_map: function(slug) {
         this.current_content_view = this.get_or_create_view("map", {
             artwork_collection: this.artwork_collection
         });
         this.switch_page("map");
-        this.current_content_view.reset();
+        this.current_content_view.reset(slug);
     },
     
     goto_list: function() {
-        this.current_content_view = this.get_or_create_view("list");
+        this.current_content_view = this.get_or_create_view("list", {
+            artwork_collection: this.artwork_collection
+        });
         this.switch_page("list");
         this.current_content_view.reset();
     },
@@ -180,6 +183,9 @@ ART.views.home = Backbone.View.extend({
     reset: function() {
     },
 
+    refresh: function() {
+    },
+
     render: function() {
     }
 });
@@ -187,6 +193,7 @@ ART.views.home = Backbone.View.extend({
 ART.views.map = Backbone.View.extend({
     artwork_collection: null,
 
+    slug: null,
     map: null,
     marker_group: new L.LayerGroup(),
     base_layer: new L.StamenTileLayer("terrain"),
@@ -199,13 +206,28 @@ ART.views.map = Backbone.View.extend({
         this.render();
     },
 
-    reset: function() {
+    reset: function(slug) {
+        this.slug = slug;
+        this.refresh();
+    },
+
+    refresh: function() {
         this.map.invalidateSize();
         this.render_artwork();
+
+        if (this.slug) {
+            var artwork = this.artwork_collection.find(function(a) {
+                return a.get("slug") == this.slug;
+            }, this);
+
+            if (artwork) {
+                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 16);
+            }
+        }
     },
 
     render: function() {
-        this.map = new L.Map('map', { minZoom:13, maxZoom:20 });
+        this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:20 });
         this.map.setView(new L.LatLng(32.33523, -95.3011), 13);
         this.map.addLayer(this.base_layer);
         this.map.addLayer(this.marker_group);
@@ -236,6 +258,36 @@ ART.views.map = Backbone.View.extend({
 });
 
 ART.views.list = Backbone.View.extend({
+    artwork_collection: null,
+
+    initialize: function(options) {
+        _.bindAll(this);
+
+        this.artwork_collection = options.artwork_collection;
+        
+        this.render();
+    },
+
+    reset: function() {
+        this.refresh();
+    },
+
+    refresh: function() {
+        this.render_list();
+    },
+
+    render: function() {
+        this.render_list();
+    },
+
+    render_list: function() {
+        artwork_list = $("#artwork-list")
+        artwork_list.empty();
+
+        this.artwork_collection.each(function(artwork) {
+            artwork_list.append(ART.templates["artwork-list-item"](artwork.toJSON()));
+        });
+    }
 });
 
 ART.views.art = Backbone.View.extend({
@@ -250,19 +302,22 @@ ART.views.art = Backbone.View.extend({
     },
 
     reset: function(slug) {
-        if (slug) {
-            this.slug = slug;
+        this.slug = slug;
+        this.refresh();
+    },
+
+    refresh: function() {
+        if (this.slug) {
+            this.artwork = this.artwork_collection.find(function(a) {
+                return a.get("slug") == this.slug;
+            }, this);
+
+            if (!this.artwork) {
+                return;
+            }
+
+            this.render();
         }
-
-        this.artwork = this.artwork_collection.find(function(a) {
-            return a.get("slug") == this.slug;
-        }, this);
-
-        if (!this.artwork) {
-            return;
-        }
-
-        this.render();
     },
 
     render: function() {

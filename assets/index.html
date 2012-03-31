@@ -31,6 +31,7 @@
             <div class="span12">
                 <h1>Welcome to the ArtMap!</h1>
                 <p>Blah blah blah</p>
+                <p>Show count of artworks here</p>
                 <a href="#map">View the map</a>
             </div>
         </div>
@@ -46,6 +47,7 @@
         <div class="row-fluid">
             <div class="span12">
                 <ul id="artwork-list">
+                    Waiting for data...
                 </ul>
             </div>
         </div>
@@ -53,7 +55,7 @@
 
     <div id="art" class="container-fluid page">
         <div class="row-fluid">
-            <div class="span12">Art view (waiting for data...)</div>
+            <div class="span12">Waiting for data...</div>
         </div>
     </div>
 
@@ -67,12 +69,18 @@
     <script type="text/javascript" src="js/art.js"></script>
 
     <script type="text/html" id="artwork" class="template">
-        <h1><%= name %></h1>
+        <h1><%= title %></h1>
+        <img src="<%= photo_url %>" />
+        <h3>By <em><%= artist %></h3>
+        <p>Medium: <%= medium %></p>
+        <p><%= description || "<em>Description forthcoming...</em>" %></p>
+        <p><% if (!creation_date) { %>Creation date unknown<% } else { %>Created on <%= creation_date %><% } %>.</p>
+        <p>Last seen on <%= last_seen_date %>.</p>
         <a href="#map/<%= slug %>">View on map</a>
     </script>
 
     <script type="text/html" id="artwork-list-item" class="template">
-        <a href="#art/<%= slug %>"><li><%= name %></li></a>
+        <a href="#art/<%= slug %>"><li><%= title %></li></a>
     </script>
 
     <script type="text/javascript">

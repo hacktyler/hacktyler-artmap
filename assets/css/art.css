@@ -1,4 +1,4 @@
-body { padding-top: 40px; }
+body { padding: 40px 0 0 0; }
 
 /* Override annoying responise navbar. */
 @media (max-width: 979px) {
@@ -9,6 +9,11 @@ body { padding-top: 40px; }
 
     .navbar-fixed-top .navbar-inner {
         padding: 0;
+    }
+
+    .navbar .brand {
+        padding: 8px 20px 12px;
+        margin-left: -20px;
     }
 
     .navbar .nav {
@@ -24,7 +29,6 @@ body { padding-top: 40px; }
         padding: 10px 10px 11px;
         margin-bottom: 0;
         font-weight: normal;
-
     }
 }
 

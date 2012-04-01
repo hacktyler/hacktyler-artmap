@@ -54,7 +54,7 @@
                             <th>Title</th>
                             <th>Artist</th>
                             <th>Medium</th>
-                            <th>Creation date</th>
+                            <th>Installation date</th>
                         </tr>
                     </thead>
                     <tbody id="artwork-list">
@@ -80,22 +80,22 @@
     <script type="text/javascript" src="js/art.js"></script>
 
     <script type="text/html" id="artwork" class="template">
-        <h1><%= title %></h1>
+        <h1><%= title || "<em>Unknown</em>" %></h1>
         <img src="<%= photo_url %>" />
-        <h3>By <em><%= artist %></h3>
+        <h3>By <em><%= artist || "<em>Unknown</em>" %></h3>
         <p>Medium: <%= medium %></p>
-        <p><%= description || "<em>Description forthcoming...</em>" %></p>
-        <p><% if (!creation_date) { %>Creation date unknown<% } else { %>Created on <%= creation_date %><% } %>.</p>
+        <% if (description) { %><p><%= description %></p><% } %>
+        <p><% if (!install_date) { %><em>Installation date unknown</em><% } else { %>Installed on <%= install_date %><% } %>.</p>
         <p>Last seen on <%= last_seen_date %>.</p>
         <a href="#map/<%= slug %>">View on map</a>
     </script>
 
     <script type="text/html" id="artwork-list-item" class="template">
         <tr>
-            <td><a href="#art/<%= slug %>"><%= title %></a></td>
-            <td><%= artist %></td>
+            <td><a href="#art/<%= slug %>"><%= title || "<em>Unknown</em>" %></a></td>
+            <td><%= artist || "<em>Unknown</em>" %></td>
             <td><%= medium %></td>
-            <td><%= creation_date %></td>
+            <td><%= install_date || "<em>Unknown</em>" %></td>
         </tr>
     </script>
 

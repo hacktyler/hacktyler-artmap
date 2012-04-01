@@ -32,6 +32,7 @@ body { padding-top: 40px; }
 .page { display: none; }
 
 #map-canvas {
+    width: 100%;
     position: absolute;
     left: 0;
 }

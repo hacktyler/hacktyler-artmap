@@ -70,7 +70,8 @@ ART.routers.index = Backbone.Router.extend({
         "map":          "map",
         "map/:slug":    "map",
         "list":         "list",
-        "art/:slug":    "art"
+        "art/:slug":    "art",
+        "contact":      "contact"
     },
 
     initialize: function(options) {
@@ -80,7 +81,8 @@ ART.routers.index = Backbone.Router.extend({
     home: function() { this.root_view.goto_home(); },
     map: function(slug) { this.root_view.goto_map(slug); },
     list: function() { this.root_view.goto_list(); },
-    art: function(slug) { this.root_view.goto_art(slug); }
+    art: function(slug) { this.root_view.goto_art(slug); },
+    contact: function() { this.root_view.goto_contact(); }
 });
 
 /* Models */
@@ -170,6 +172,12 @@ ART.views.root = Backbone.View.extend({
         });
         this.switch_page("art");
         this.current_content_view.reset(slug);
+    },
+
+    goto_contact: function() {
+        this.current_content_view = this.get_or_create_view("contact");
+        this.switch_page("contact");
+        this.current_content_view.reset();
     }
 });
 
@@ -337,4 +345,26 @@ ART.views.art = Backbone.View.extend({
         $("#art").html(ART.templates.artwork(this.artwork.toJSON()));
     }
 });
+
+ART.views.contact = Backbone.View.extend({
+    initialize: function(options) {
+        _.bindAll(this);
+        
+        this.render();
+    },
+
+    reset: function() {
+    },
+
+    refresh: function() {
+    },
+
+    render: function() {
+        var html = '<iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=dHQzMnBaRy1yenRnbGlTN1M0UVBWS1E6MQ" width="' + ($(window).width() - 40) + '" height="844" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>'
+        $("#contact-form-wrapper").html(html);
+    }
+});
+
+
+
 

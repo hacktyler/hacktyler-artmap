@@ -173,6 +173,9 @@ ART.views.map = Backbone.View.extend({
     initialize: function(options) {
         _.bindAll(this);
 
+        // Recalculate map dimensions on window resize
+        $(window).resize(this.resize);
+
         this.artwork_collection = options.artwork_collection;
         
         this.render();
@@ -184,7 +187,7 @@ ART.views.map = Backbone.View.extend({
     },
 
     refresh: function() {
-        this.map.invalidateSize();
+        this.resize();
         this.render_artwork();
 
         if (this.slug) {
@@ -227,6 +230,14 @@ ART.views.map = Backbone.View.extend({
             this.marker_group.addLayer(marker);
         }, this);
     },
+
+    resize: function() {
+        var h = $(window).height(),
+        offsetTop = 40;
+
+        $('#map-canvas').css('height', (h - offsetTop));
+        this.map.invalidateSize();
+    }
 });
 
 ART.views.list = Backbone.View.extend({

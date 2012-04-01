@@ -26,6 +26,42 @@ ART.utils.dict_zip = function(keys, values) {
     return obj;
 }
 
+/* Wrapper for jQuery.ajax fusion table query. 
+ *  Parameters:
+ *    query: The query string. Use %t as the table name, the function will 
+ *           perform the appropriate substitution.
+ *    callback: Callback function with data parameter available.
+ *  
+ *  You'll need to use _.bind to enforce your desired context.
+ * 
+ *  Example:
+ *   ART.utils.query("SELECT * FROM %t", _.bind(function(data){
+ *       this.do_something_with(data);
+ *   }, this));
+*/
+ART.utils.query = function(query, callback){
+  
+  // Replace %t with the fusion table
+  queryString = query.replace("%t", ART.settings.fusion_table_id); 
+  queryURL = "https://www.google.com/fusiontables/api/query?sql=" + queryString;
+
+  $.ajax(queryURL, {
+      "dataType": "jsonp",
+      "jsonp": "jsonCallback",
+      "success": function(data, textStatus, xhr) {
+          var columns = data["table"]["cols"];
+          var rows = data["table"]["rows"];
+
+          var data = _.map(rows, function(row) {
+              return ART.utils.dict_zip(columns, row);
+          });
+
+          // Fire the callback with the data available
+          callback(data);
+      }
+  });
+}
+
 /* Routers */
 
 ART.routers.index = Backbone.Router.extend({
@@ -76,20 +112,12 @@ ART.views.root = Backbone.View.extend({
     },
 
     refresh_artwork: function() {
-        $.ajax("https://www.google.com/fusiontables/api/query?sql=SELECT * FROM " + ART.settings.fusion_table_id, {
-            "dataType": "jsonp",
-            "jsonp": "jsonCallback",
-            "success": _.bind(function(data, textStatus, xhr) {
-                var columns = data["table"]["cols"];
-                var rows = data["table"]["rows"];
 
-                var data = _.map(rows, function(row) {
-                    return ART.utils.dict_zip(columns, row);
-                });
+    		var reset_artwork = _.bind(function(data){
+        		this.artwork_collection.reset(data);
+				}, this);
 
-                this.artwork_collection.reset(data);
-            }, this)
-        });
+        ART.utils.query("SELECT * FROM %t", reset_artwork);
     },
 
     refresh_view: function() {

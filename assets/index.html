@@ -3,35 +3,114 @@
 <head>
     <title>Art map</title>
 
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="shortcut icon" href="favico.gif">
-    <link rel="stylesheet" type="text/css" href="reset.css" /> 
-    <link rel="stylesheet" type="text/css" href="art.css" />
-    <link href='leaflet/leaflet.css' rel='stylesheet' type='text/css' />
-    <!--[if lte IE 8]><link rel="stylesheet" href="leaflet/leaflet.ie.css" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link rel="apple-touch-icon" href="TODO.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="TODO.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="TODO.png" />
+
+    <link rel="stylesheet" type="text/css" href="css/reset.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" /> 
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css" /> 
+    <link rel='stylesheet' type='text/css' href="css/leaflet.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/leaflet.ie.css" /><![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/art.css" />
 </head>
 <body>
-    <div id="home" class="page">
-        <h1>ArtMap</h1>
-        <a href="#map">View the map</a>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#">Artmap</a>
+
+                <ul class="nav">
+                    <li><a href="#map">Map</a></li>
+                    <li><a href="#list">List</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-    
-    <div id="map" class="page"></div>
 
-    <div id="list" class="page">List view (waiting for data...)</div>
+    <div id="home" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">
+                <h1>Welcome to the ArtMap!</h1>
+                <p>Blah blah blah</p>
+                <p>Show count of artworks here</p>
+                <a href="#map">View the map</a>
+                <p>By Hack Tyler</p>
+                <p>Data curated by the contributers. Know something we missed? Contact us. foo bar baz</p>
+            </div>
+        </div>
+    </div>
 
-    <div id="art" class="page">Art view (waiting for data...)</div>
+    <div id="map" class="container-fluid page">
+        <div class="row-fluid">
+            <div id="map-canvas" class="span12"></div>
+        </div>
+    </div>
 
-    <script src="jquery-1.7.1.min.js"></script>
-    <script src="underscore-min.js"></script>
-    <script src="backbone-min.js"></script>
-    <script src='leaflet/leaflet.js' type='text/javascript'></script>
-    <script src="wax.leaf.min.js"></script>
+    <div id="list" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Medium</th>
+                            <th>Installation date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="artwork-list">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="art" class="container-fluid page">
+        <div class="row-fluid">
+            <div class="span12">Waiting for data...</div>
+        </div>
+    </div>
+
+    <div id="contact" class="container-fluid page">
+        <div class="row-fluid">
+            <div id="contact-form-wrapper">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/backbone-min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/leaflet.js"></script>
+    <script type="text/javascript" src="js/wax.leaf.min.js"></script>
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js"></script>
-    <script src='art.js' type='text/javascript'></script>
+    <script type="text/javascript" src="js/art.js"></script>
 
     <script type="text/html" id="artwork" class="template">
-        <div><%= name %><div>
+        <h1><%= title || "<em>Unknown</em>" %></h1>
+        <img src="<%= photo_url %>" />
+        <h3>By <em><%= artist || "<em>Unknown</em>" %></h3>
+        <p>Medium: <%= medium %></p>
+        <% if (description) { %><p><%= description %></p><% } %>
+        <p><% if (!install_date) { %><em>Installation date unknown</em><% } else { %>Installed on <%= install_date %><% } %>.</p>
+        <p>Last seen on <%= last_seen_date %>.</p>
+        <a href="#map/<%= slug %>">View on map</a>
+    </script>
+
+    <script type="text/html" id="artwork-list-item" class="template">
+        <tr>
+            <td><a href="#art/<%= slug %>"><%= title || "<em>Unknown</em>" %></a></td>
+            <td><%= artist || "<em>Unknown</em>" %></td>
+            <td><%= medium %></td>
+            <td><%= install_date || "<em>Unknown</em>" %></td>
+        </tr>
     </script>
 
     <script type="text/javascript">

@@ -1,0 +1,44 @@
+body { padding: 40px 0 0 0; }
+
+/* Override annoying responise navbar. */
+@media (max-width: 979px) {
+    .navbar-fixed-top {
+        position: fixed;
+        margin: 0;
+    }
+
+    .navbar-fixed-top .navbar-inner {
+        padding: 0;
+    }
+
+    .navbar .brand {
+        padding: 8px 20px 12px;
+        margin-left: -20px;
+    }
+
+    .navbar .nav {
+        float: left;
+        margin: 0 10px 0 0;
+    }
+
+    .navbar .nav > li {
+        float: left;
+    }
+
+    .navbar .nav > li > a {
+        padding: 10px 10px 11px;
+        margin-bottom: 0;
+        font-weight: normal;
+    }
+}
+
+#content { padding: 0px; }
+.page { display: none; margin-top: 10px; }
+#map { margin-top: 0; }
+
+#map-canvas {
+    width: 100%;
+    position: absolute;
+    left: 0;
+}
+

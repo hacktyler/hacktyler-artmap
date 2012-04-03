@@ -139,45 +139,62 @@ ART.views.root = Backbone.View.extend({
         return this.views[name];
     },
 
-    switch_page: function(id) {
+   /*
+     * Get a view for a page and display it
+     * Parameters:
+     *  id: div ID. By convention in this project, the id also == the route.
+     *  options: (optional) options to pass to the get_or_create_view function
+     *  
+     * Additional arguments passed to this function will be passed to
+     * current_content_view.reset. 
+     */
+    switch_page: function(id, options) {
+
+        // Set options to an empty object for consistency if not provided.
+        options = options || {}
+
+        // Get the view
+        this.current_content_view = this.get_or_create_view(id, options);
+
+        // Display the view div before we attempt to render into it
         $(".page").hide();
         $("#" + id).show();
+
+        // Get all but the first two arguments, and store it in args
+        var args = Array.prototype.slice.call(arguments).slice(2);  
+        this.current_content_view.reset(args);
     },
 
     goto_home: function() {
-        this.current_content_view = this.get_or_create_view("home");
         this.switch_page("home");
-        this.current_content_view.reset();
     },
     
     goto_map: function(slug) {
-        this.current_content_view = this.get_or_create_view("map", {
-            artwork_collection: this.artwork_collection
-        });
-        this.switch_page("map");
-        this.current_content_view.reset(slug);
+        var opts = {
+          artwork_collection: this.artwork_collection
+        };
+
+        this.switch_page("map", opts, slug);
     },
     
     goto_list: function() {
-        this.current_content_view = this.get_or_create_view("list", {
-            artwork_collection: this.artwork_collection
-        });
-        this.switch_page("list");
-        this.current_content_view.reset();
+        var opts = {
+          artwork_collection: this.artwork_collection
+        };
+
+        this.switch_page("list", opts);
     },
 
     goto_art: function(slug) {
-        this.current_content_view = this.get_or_create_view("art", {
-            artwork_collection: this.artwork_collection
-        });
-        this.switch_page("art");
-        this.current_content_view.reset(slug);
+        var opts = {
+          artwork_collection: this.artwork_collection
+        };
+
+        this.switch_page("art", opts, slug);
     },
 
     goto_contact: function() {
-        this.current_content_view = this.get_or_create_view("contact");
         this.switch_page("contact");
-        this.current_content_view.reset();
     }
 });
 

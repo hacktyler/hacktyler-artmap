@@ -251,7 +251,7 @@ ART.views.map = Backbone.View.extend({
             var latlng = new L.LatLng(artwork.get("latitude"), artwork.get("longitude"));
 
             var marker = new L.CircleMarker(latlng, {
-                radius: 8,
+                radius: 12,
                 fillColor: "#ff7800",
                 color: "#000",
                 weight: 1,
@@ -267,19 +267,15 @@ ART.views.map = Backbone.View.extend({
                         bottom: "50px",
                         left: "50px",
                         zIndex: 1002,
-                        backgroundColor: "#2C2C2C",
+                        backgroundColor: "#2c2c2c",
                         padding: "8px",
                         border: "1px solid #444",
-                        color: "white"
-                    }
+                        color: "white",
+                        fontSize: "16px"
+                    },
+                    html: "<em>" + artwork.get("title") + "</em> (" + artwork.get("medium") + ")"
                 });
 
-                var body = $("<div></div>", {
-                    text: artwork.get("title"),
-                    css: { fontSize: "16px", marginBottom: "3px" }
-                });
-
-                popup.append(body);
                 popup.appendTo("#map-canvas");
             });
 

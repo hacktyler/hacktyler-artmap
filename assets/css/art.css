@@ -12,7 +12,7 @@ body { padding: 40px 0 0 0; }
     }
 
     .navbar .brand {
-        padding: 8px 20px 12px;
+        padding: 8px 10px 12px 20px;
         margin-left: -20px;
     }
 
@@ -35,7 +35,8 @@ body { padding: 40px 0 0 0; }
 #content { padding: 0px; }
 .page { display: none; margin-top: 15px; }
 
-#home .logo { float: left; margin-right: 20px; margin-bottom: 10px;}
+#home .logo { float: left; margin-right: 20px; margin-bottom: 15px;}
+#home h2 { margin-bottom: 15px; }
 
 #map { margin-top: 0; }
 #map-canvas {

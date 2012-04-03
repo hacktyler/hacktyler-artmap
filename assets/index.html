@@ -66,8 +66,8 @@
                         <tr>
                             <th>Title</th>
                             <th>Artist</th>
-                            <th>Medium</th>
-                            <th>Installed on</th>
+                            <th>Type</th>
+                            <th style="white-space: nowrap;">Installed on</th>
                         </tr>
                     </thead>
                     <tbody id="artwork-list">
@@ -100,22 +100,23 @@
     <script type="text/javascript" src="js/art.js"></script>
 
     <script type="text/html" id="artwork" class="template">
-        <h1><%= title || "<em>Unknown</em>" %></h1>
+        <h6><%= type %></h6>
+        <h2><%= title || "<em>Unknown</em>" %></h2>
         <img src="<%= photo_url %>" />
-        <h3>By <em><%= artist || "<em>Unknown</em>" %></h3>
-        <p>Medium: <%= medium %></p>
+        <p><i class="icon-search"></i> <a href="#map/<%= slug %>"><% if (address) { %><%= address %><% } else { %>Show on the map<% } %></a></p>
+        <% if (artist) { %><h3>by <em><%= artist %></h3><% } %>
         <% if (description) { %><p><%= description %></p><% } %>
-        <p><% if (!install_date) { %><em>Installation date unknown</em><% } else { %>Installed on <%= install_date %><% } %>.</p>
-        <p>Last seen on <%= last_seen_date %>.</p>
-        <a href="#map/<%= slug %>">View on map</a>
+        <% if (install_date) { %><p>Installed on <%= install_date %>.<% } %>
+        <hr />
+        <p>This location was last verified on <%= last_seen_date %>. Is something missing or incorrect? Please <a href="#contact">contact us</a>.</p>
     </script>
 
     <script type="text/html" id="artwork-list-item" class="template">
         <tr>
             <td><a href="#art/<%= slug %>"><%= title || "<em>Unknown</em>" %></a></td>
-            <td><%= artist || "<em>Unknown</em>" %></td>
-            <td><%= medium %></td>
-            <td><%= install_date || "<em>Unknown</em>" %></td>
+            <td><%= artist %></td>
+            <td><%= type %></td>
+            <td><%= install_date %></td>
         </tr>
     </script>
 

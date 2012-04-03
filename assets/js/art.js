@@ -162,7 +162,7 @@ ART.views.root = Backbone.View.extend({
 
         // Get all but the first two arguments, and store it in args
         var args = Array.prototype.slice.call(arguments).slice(2);  
-        this.current_content_view.reset(args);
+        this.current_content_view.reset.apply(this, args);
     },
 
     goto_home: function() {

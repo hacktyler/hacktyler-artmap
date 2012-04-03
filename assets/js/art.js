@@ -259,6 +259,34 @@ ART.views.map = Backbone.View.extend({
                 fillOpacity: 0.8
             });
 
+            marker.on("mouseover", function(e) {
+                var popup = $("<div></div>", {
+                    id: "popup-" + artwork.get("slug"),
+                    css: {
+                        position: "absolute",
+                        bottom: "50px",
+                        left: "50px",
+                        zIndex: 1002,
+                        backgroundColor: "#2C2C2C",
+                        padding: "8px",
+                        border: "1px solid #444",
+                        color: "white"
+                    }
+                });
+
+                var body = $("<div></div>", {
+                    text: artwork.get("title"),
+                    css: { fontSize: "16px", marginBottom: "3px" }
+                });
+
+                popup.append(body);
+                popup.appendTo("#map-canvas");
+            });
+
+            marker.on("mouseout", function(e) {
+                $("#popup-" + artwork.get("slug")).remove();
+            });
+
             marker.on("click", _.bind(function(e) {
                 window.ArtRouter.navigate("#art/" + artwork.get("slug"), true);
             }, this));

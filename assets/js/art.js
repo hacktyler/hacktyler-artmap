@@ -273,7 +273,7 @@ ART.views.map = Backbone.View.extend({
                         color: "white",
                         fontSize: "16px"
                     },
-                    html: "<em>" + artwork.get("title") + "</em> (" + artwork.get("medium") + ")"
+                    html: "<em>" + artwork.get("title") + "</em> (" + artwork.get("type") + ")"
                 });
 
                 popup.appendTo("#map-canvas");

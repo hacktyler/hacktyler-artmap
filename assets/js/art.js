@@ -267,14 +267,16 @@ ART.views.map = Backbone.View.extend({
         this.artwork_collection.each(function(artwork) {   
             var latlng = new L.LatLng(artwork.get("latitude"), artwork.get("longitude"));
 
-            var marker = new L.CircleMarker(latlng, {
-                radius: 12,
-                fillColor: "#ff7800",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
+            var MuseumIcon = L.Icon.extend({
+                iconUrl: 'img/icons_museum_nounproject.png',
+                shadowUrl: 'img/icons_museum_nounproject_shadow.png',
+                iconSize: new L.Point(32, 32),
+                shadowSize: new L.Point(56, 32),
+                iconAnchor: new L.Point(16, 16),
             });
+            var icon = new MuseumIcon();
+
+            var marker = new L.Marker(latlng, { icon: icon });
 
             marker.on("mouseover", function(e) {
                 var popup = $("<div></div>", {

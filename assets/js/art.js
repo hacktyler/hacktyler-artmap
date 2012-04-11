@@ -48,6 +48,9 @@ ART.utils.query = function(query, callback){
   $.ajax(queryURL, {
       "dataType": "jsonp",
       "jsonp": "jsonCallback",
+      "beforeSend" : function(xhr, settings){
+          $("#loading").show();
+      },
       "success": function(data, textStatus, xhr) {
           var columns = data["table"]["cols"];
           var rows = data["table"]["rows"];
@@ -56,7 +59,7 @@ ART.utils.query = function(query, callback){
               return ART.utils.dict_zip(columns, row);
           });
 
-          // Fire the callback with the data available
+          $("#loading").hide();
           callback(data);
       }
   });

@@ -277,6 +277,12 @@ ART.views.map = Backbone.View.extend({
             });
 
             marker.on("mouseover", function(e) {
+                var description = "<em>" + artwork.get("title") + "</em>";
+                // Append type to description if available
+                if (typeof(artwork.get("type")) !== 'undefined'){
+                  description += " (" + artwork.get("type") + ")";
+                }
+
                 var popup = $("<div></div>", {
                     id: "popup-" + artwork.get("slug"),
                     css: {
@@ -290,7 +296,7 @@ ART.views.map = Backbone.View.extend({
                         color: "white",
                         fontSize: "16px"
                     },
-                    html: "<em>" + artwork.get("title") + "</em> (" + artwork.get("type") + ")"
+                    html: description
                 });
 
                 popup.appendTo("#map-canvas");

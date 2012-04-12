@@ -123,7 +123,10 @@
     <script type="text/html" id="artwork" class="template">
         <h6><%= type %></h6>
         <h2><%= title || "<em>Unknown</em>" %></h2>
-        <img src="<%= photo_url %>" />
+        <% if (photo_url) { %>
+            <img src="<%= photo_url %>" />
+            <p class="photo-credit"><small><%= photo_credit %></small></p>
+        <% } %>
         <p><i class="icon-search"></i> <a href="#map/<%= slug %>"><% if (address) { %><%= address %><% } else { %>Show on the map<% } %></a></p>
         <% if (artist) { %><h3>by <em><%= artist %></h3><% } %>
         <% if (description) { %><p><%= description %></p><% } %>

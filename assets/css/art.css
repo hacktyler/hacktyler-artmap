@@ -50,7 +50,6 @@ body { padding: 40px 0 0 0; }
 
 #art h2 { margin-bottom: 15px; line-height: 28px; }
 #art h6 { font-size: 12px; }
-#art img { margin-bottom: 10px; }
 
 @media (max-width: 979px) {
     #art img {

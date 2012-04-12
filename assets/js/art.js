@@ -296,17 +296,6 @@ ART.views.map = Backbone.View.extend({
 
                 var popup = $("<div></div>", {
                     id: "popup-" + artwork.get("slug"),
-                    css: {
-                        position: "absolute",
-                        bottom: "50px",
-                        left: "50px",
-                        zIndex: 1002,
-                        backgroundColor: "#2c2c2c",
-                        padding: "8px",
-                        border: "1px solid #444",
-                        color: "white",
-                        fontSize: "16px"
-                    },
                     html: description
                 });
 

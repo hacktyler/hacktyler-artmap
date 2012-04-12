@@ -68,3 +68,7 @@ div[id^="popup-"]{
   color: white;
   font-size: 16px;
 }
+
+table tr th{
+  cursor: pointer;
+}

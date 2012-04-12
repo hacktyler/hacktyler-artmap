@@ -343,6 +343,9 @@ ART.views.list = Backbone.View.extend({
         this.artwork_collection = options.artwork_collection;
         
         this.render();
+
+        // Make the table sortable
+        $("table").stupidtable();
     },
 
     reset: function() {

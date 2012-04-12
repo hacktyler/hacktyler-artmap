@@ -223,6 +223,15 @@ ART.views.map = Backbone.View.extend({
     marker_group: new L.LayerGroup(),
     base_layer: new L.StamenTileLayer("terrain"),
 
+    default_marker_style: {
+        radius: 12,
+        fillColor: "#9E89E8",
+        color: "#000",
+        weight: 3,
+        opacity: 0.8,
+        fillOpacity: 0.6,
+    },
+
     initialize: function(options) {
         _.bindAll(this);
 
@@ -267,20 +276,20 @@ ART.views.map = Backbone.View.extend({
         this.artwork_collection.each(function(artwork) {   
             var latlng = new L.LatLng(artwork.get("latitude"), artwork.get("longitude"));
 
-            var marker = new L.CircleMarker(latlng, {
-                radius: 12,
-                fillColor: "#9E89E8",
-                color: "#000",
-                weight: 3,
-                opacity: 0.8,
-                fillOpacity: 0.6,
-            });
+            var marker_style = _.clone(this.default_marker_style);
+
+            if (artwork.get("slug") == this.slug) {
+                marker_style["fillColor"] = "#F00";
+            }
+
+            var marker = new L.CircleMarker(latlng, marker_style);
 
             marker.on("mouseover", function(e) {
                 var description = "<em>" + artwork.get("title") + "</em>";
+
                 // Append type to description if available
-                if (typeof(artwork.get("type")) !== 'undefined'){
-                  description += " (" + artwork.get("type") + ")";
+                if (_.isUndefined(artwork.get("type"))){
+                    description += " (" + artwork.get("type") + ")";
                 }
 
                 var popup = $("<div></div>", {
@@ -300,7 +309,7 @@ ART.views.map = Backbone.View.extend({
                 });
 
                 popup.appendTo("#map-canvas");
-            });
+            }, this);
 
             marker.on("mouseout", function(e) {
                 $("#popup-" + artwork.get("slug")).remove();

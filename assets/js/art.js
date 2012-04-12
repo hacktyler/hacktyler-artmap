@@ -13,6 +13,9 @@ ART.utils = {};
 /* Settings */
 
 ART.settings.fusion_table_id = "1OHO4HXJyZNjKiGDrG_Mmdp-NTTmNE9lhkBPOMwk";
+ART.settings.default_coords = new L.LatLng(32.33523, -95.3011);
+ART.settings.default_zoom = 13;
+ART.settings.artwork_zoom = 17;
 
 /* Utility functions */
 
@@ -260,14 +263,16 @@ ART.views.map = Backbone.View.extend({
             }, this);
 
             if (artwork) {
-                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 17);
+                this.map.setView(this.art_coords(artwork),
+                                 ART.settings.artwork_zoom);
             }
         }
     },
 
     render: function() {
         this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:20 });
-        this.map.setView(new L.LatLng(32.33523, -95.3011), 13);
+        this.map.setView(ART.settings.default_coords, 
+                         ART.settings.default_zoom);
         this.map.addLayer(this.base_layer);
         this.map.addLayer(this.marker_group);
     },
@@ -276,7 +281,7 @@ ART.views.map = Backbone.View.extend({
         this.marker_group.clearLayers();
 
         this.artwork_collection.each(function(artwork) {   
-            var latlng = new L.LatLng(artwork.get("latitude"), artwork.get("longitude"));
+            var latlng = this.art_coords(artwork);
 
             var marker_style = _.clone(this.default_marker_style);
 
@@ -320,6 +325,12 @@ ART.views.map = Backbone.View.extend({
 
         $('#map-canvas').css('height', (h - offsetTop));
         this.map.invalidateSize();
+    },
+
+    art_coords: function(artwork){
+      var lat = artwork.get("latitude");
+      var lon = artwork.get("longitude");
+      return new L.LatLng(lat,lon);
     }
 });
 

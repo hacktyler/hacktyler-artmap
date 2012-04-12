@@ -48,6 +48,9 @@ ART.utils.query = function(query, callback){
   $.ajax(queryURL, {
       "dataType": "jsonp",
       "jsonp": "jsonCallback",
+      "beforeSend" : function(xhr, settings){
+          $("#loading").show();
+      },
       "success": function(data, textStatus, xhr) {
           var columns = data["table"]["cols"];
           var rows = data["table"]["rows"];
@@ -56,7 +59,7 @@ ART.utils.query = function(query, callback){
               return ART.utils.dict_zip(columns, row);
           });
 
-          // Fire the callback with the data available
+          $("#loading").hide();
           callback(data);
       }
   });
@@ -114,10 +117,9 @@ ART.views.root = Backbone.View.extend({
     },
 
     refresh_artwork: function() {
-
-    		var reset_artwork = _.bind(function(data){
-        		this.artwork_collection.reset(data);
-				}, this);
+        var reset_artwork = _.bind(function(data){
+            this.artwork_collection.reset(data);
+        }, this);
 
         ART.utils.query("SELECT * FROM %t ORDER BY title", reset_artwork);
     },

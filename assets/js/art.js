@@ -245,6 +245,12 @@ ART.views.map = Backbone.View.extend({
 
         this.artwork_collection = options.artwork_collection;
         
+        // Clicking on Map link when on map page resets position
+        $("a[href='#map']").click( _.bind(function(){
+          this.map.setView(ART.settings.default_coords, 
+                           ART.settings.default_zoom);
+        }, this));
+
         this.render();
     },
 

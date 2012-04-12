@@ -290,7 +290,7 @@ ART.views.map = Backbone.View.extend({
                 var description = "<em>" + artwork.get("title") + "</em>";
 
                 // Append type to description if available
-                if (_.isUndefined(artwork.get("type"))){
+                if (artwork.get("type")){
                     description += " (" + artwork.get("type") + ")";
                 }
 

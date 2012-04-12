@@ -316,7 +316,7 @@ ART.views.map = Backbone.View.extend({
 
     resize: function() {
         var h = $(window).height(),
-        offsetTop = 40;
+        offsetTop = $(".navbar-fixed-top").height();
 
         $('#map-canvas').css('height', (h - offsetTop));
         this.map.invalidateSize();

@@ -117,10 +117,9 @@ ART.views.root = Backbone.View.extend({
     },
 
     refresh_artwork: function() {
-
-    		var reset_artwork = _.bind(function(data){
-        		this.artwork_collection.reset(data);
-				}, this);
+        var reset_artwork = _.bind(function(data){
+            this.artwork_collection.reset(data);
+        }, this);
 
         ART.utils.query("SELECT * FROM %t", reset_artwork);
     },

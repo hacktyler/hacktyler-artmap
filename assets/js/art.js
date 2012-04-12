@@ -119,7 +119,7 @@ ART.views.root = Backbone.View.extend({
         		this.artwork_collection.reset(data);
 				}, this);
 
-        ART.utils.query("SELECT * FROM %t", reset_artwork);
+        ART.utils.query("SELECT * FROM %t ORDER BY title", reset_artwork);
     },
 
     refresh_view: function() {
@@ -249,7 +249,7 @@ ART.views.map = Backbone.View.extend({
             }, this);
 
             if (artwork) {
-                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 16);
+                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 17);
             }
         }
     },
@@ -269,11 +269,11 @@ ART.views.map = Backbone.View.extend({
 
             var marker = new L.CircleMarker(latlng, {
                 radius: 12,
-                fillColor: "#ff7800",
+                fillColor: "#9E89E8",
                 color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
+                weight: 3,
+                opacity: 0.8,
+                fillOpacity: 0.6,
             });
 
             marker.on("mouseover", function(e) {

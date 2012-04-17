@@ -260,11 +260,11 @@ ART.views.map = Backbone.View.extend({
     },
 
     render: function() {
-        this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:20 });
+        this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:18 });
         this.map.setView(ART.settings.default_coords, ART.settings.default_zoom);
         this.map.addLayer(this.base_layer);
 
-        this.clusterer = new LeafClusterer(this.map, [], { gridSize: 32 });
+        this.clusterer = new LeafClusterer(this.map, [], { gridSize: 48 });
     },
 
     render_artwork: function() {

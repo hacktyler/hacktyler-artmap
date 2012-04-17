@@ -222,17 +222,8 @@ ART.views.map = Backbone.View.extend({
 
     slug: null,
     map: null,
-    marker_group: new L.LayerGroup(),
+    clusterer: null,
     base_layer: new L.StamenTileLayer("terrain"),
-
-    default_marker_style: {
-        radius: 12,
-        fillColor: "#9E89E8",
-        color: "#000",
-        weight: 3,
-        opacity: 0.8,
-        fillOpacity: 0.6,
-    },
 
     initialize: function(options) {
         _.bindAll(this);
@@ -260,7 +251,7 @@ ART.views.map = Backbone.View.extend({
             }, this);
 
             if (artwork) {
-                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 17);
+                this.map.setView(new L.LatLng(artwork.get("latitude"), artwork.get("longitude")), 18);
             }
         }
     },
@@ -269,22 +260,17 @@ ART.views.map = Backbone.View.extend({
         this.map = new L.Map("map-canvas", { minZoom:13, maxZoom:20 });
         this.map.setView(new L.LatLng(32.33523, -95.3011), 13);
         this.map.addLayer(this.base_layer);
-        this.map.addLayer(this.marker_group);
+
+        this.clusterer = new LeafClusterer(this.map, [], { gridSize: 32 });
     },
 
     render_artwork: function() {
-        this.marker_group.clearLayers();
+        this.clusterer.clearMarkers();
 
         this.artwork_collection.each(function(artwork) {   
             var latlng = new L.LatLng(artwork.get("latitude"), artwork.get("longitude"));
 
-            var marker_style = _.clone(this.default_marker_style);
-
-            if (artwork.get("slug") == this.slug) {
-                marker_style["fillColor"] = "#F00";
-            }
-
-            var marker = new L.CircleMarker(latlng, marker_style);
+            var marker = new L.Marker(latlng);
 
             marker.on("mouseover", function(e) {
                 var description = "<em>" + artwork.get("title") + "</em>";
@@ -321,7 +307,7 @@ ART.views.map = Backbone.View.extend({
                 window.ArtRouter.navigate("#art/" + artwork.get("slug"), true);
             }, this));
 
-            this.marker_group.addLayer(marker);
+            this.clusterer.addMarker(marker);
         }, this);
     },
 
